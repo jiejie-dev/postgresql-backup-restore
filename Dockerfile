@@ -7,14 +7,16 @@ RUN echo https://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/reposito
 
 # Install everything via repo because repo & pip installs can break things
 RUN apk update \
- && apk add --no-cache \
-            bash \
-            postgresql14-client \
-            py3-magic \
-            py3-dateutil \
-            s3cmd
+    && apk add --no-cache \
+    bash \
+    postgresql14-client \
+    py3-magic \
+    py3-dateutil
 
 COPY application/ /data/
 WORKDIR /data
+
+ADD coscli-v1.0.1-linux-amd64 /usr/local/bin/cos
+RUN chmod +x /usr/local/bin/cos
 
 CMD ["./entrypoint.sh"]
